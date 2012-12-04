@@ -7,27 +7,20 @@ require 'debugger'
 set :public_folder, File.dirname(__FILE__) + '/Public'
 
 get '/' do
-erb:index
+	erb :index
 end
 
-post '/searchedDomain/?' do #the sinatra will respond to this post /searchedDomain
-	puts 'Hey we are in here'
-	w = Whois::Client.new
-	lookup = params[:domain]#need to figure out how this ruby is going to read json
-	query = w.query(lookup)
-	query.available?
+post '/whois' do #the sinatra will respond to this post /whois
+	puts params #not needed. This tells us, the developer, what is in params
+	@state = "unavailable" #instance variable that is set to unavailabe as a default value
+	@domain = params[:domain] #params contains all the data that came from the post request which in this case came from the index.erb code
+				# the instance variable does not have to be the same name is the :word. :domain could be any word as long as it is exists in params (it exists in the index.erb code)
+  				
+  	#perform whois lookup
+  	query = Whois::query(@domain) #Query is a part of the whois gem
+  
+  	@state = "available" if query.available?
+  
+  	erb :result
 
-	if query.available?
-		"This is available!"
-	else
-		"This is not available. Please try again!"
-	end
-#Need to find how sinatra (which is the server) sends the json back to client
 end
-# the sinatra exposes the code to the internet. It enables Ruby to do what it needs to and to get our result.
-# The user entered some text. The text is converted into JSON by Javascript and HTML (which makes up the website)
-# and is sent and accepted by the server (the server is the Ruby code in this case and reads JSON).
-# Data sent from Javascript -> Server by speaking in JSON.
-# The server takes the JSON, reads it, and converts it into a Ruby object which in this code is called query. 
-# The object queries and returns a true or false in JSON to the client (the client is the Javascript)
-# using the function available? 
