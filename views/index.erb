@@ -39,8 +39,11 @@
 	
 		<div class="centered_div">
 			<form method="post" action="/whois"> <!--this line of html code is adding /whois to the server it is on and POSTing there-->
-  				<input type="text" name="domain" id="mytextbox" value="" /> 
+  				<input type="text" name="domain" id="mytextbox" value="" /><br>
   				<!-- the data's name is domain which is what we are POSTing to /whois -->
+  				<label><input type="checkbox" name="domaintype[com]" value=".com">.com</label><br>
+				<label><input type="checkbox" name="domaintype[org]" value=".org">.org</label><br> 
+				<label><input type="checkbox" name="domaintype[net]" value=".net">.net</label><br>
 				<input type="submit" class="btn btn-info" id="addButton" value="Add" /> 
 			</form>
 			<!-- class "btn btn-info" is from bootstrap css -->

@@ -1,2 +1,13 @@
+<html>
+
+<body>
 <h1> Your domain <%= @domain %> is <%= @state %></h1> 
 <!-- Displays @domain from the hi.rb file. This is sinatra magic! -->
+<% @query.each do |query| %>
+	The domain <%= query.domain %> and is it available?
+	<%= query.available? %>
+	<br />
+<% end %>
+</body>
+
+</html>
